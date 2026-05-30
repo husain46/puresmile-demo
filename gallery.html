@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smile Gallery | PureSmile Dental</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#0B7B6B;
+  --teal-light:#E6F5F2;
+  --teal-xlight:#F2FAF8;
+  --navy:#0F1F2E;
+  --text:#1A2733;
+  --text-mid:#4A5E6D;
+  --text-light:#7A8F9E;
+  --border:#E4ECF0;
+  --white:#FFFFFF;
+  --off-white:#F7FAFB;
+  --sans:'Bricolage Grotesque',system-ui,sans-serif;
+  --serif:'Lora',Georgia,serif;
+}
+body{font-family:var(--sans);color:var(--text);background:var(--white);}
+
+/* NAV */
+nav{background:white;border-bottom:1px solid var(--border);padding:0 60px;position:sticky;top:0;z-index:100;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-mark{width:36px;height:36px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.logo-name{font-size:19px;font-weight:600;color:var(--navy);}
+.logo-name span{color:var(--teal);}
+.nav-back{background:var(--teal);color:white;font-size:14px;font-weight:500;padding:10px 22px;border-radius:8px;text-decoration:none;}
+
+/* HERO */
+.gallery-hero{background:var(--navy);padding:64px 60px;text-align:center;}
+.gallery-hero h1{font-size:52px;font-weight:700;color:white;letter-spacing:-1.5px;margin-bottom:12px;}
+.gallery-hero h1 em{font-family:var(--serif);font-style:italic;color:#0E9980;}
+.gallery-hero p{font-size:17px;color:rgba(255,255,255,0.55);font-weight:300;max-width:480px;margin:0 auto 32px;}
+.filter-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.tab{padding:8px 20px;border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);background:transparent;transition:all 0.15s;font-family:var(--sans);}
+.tab.active,.tab:hover{background:var(--teal);border-color:var(--teal);color:white;}
+
+/* GALLERY GRID */
+.gallery-section{padding:60px;}
+.gallery-grid{columns:3;gap:16px;column-fill:balance;}
+.gallery-item{break-inside:avoid;margin-bottom:16px;border-radius:12px;overflow:hidden;position:relative;cursor:pointer;background:var(--off-white);}
+.gallery-item img{width:100%;display:block;transition:transform 0.4s ease;}
+.gallery-item:hover img{transform:scale(1.04);}
+.gallery-item-overlay{position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(15,31,46,0.85));opacity:0;transition:opacity 0.3s;display:flex;align-items:flex-end;padding:16px;}
+.gallery-item:hover .gallery-item-overlay{opacity:1;}
+.gallery-item-label{color:white;}
+.gallery-item-label .cat{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#0E9980;margin-bottom:3px;}
+.gallery-item-label .title{font-size:14px;font-weight:600;}
+.zoom-icon{position:absolute;top:12px;right:12px;width:32px;height:32px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;font-size:14px;}
+.gallery-item:hover .zoom-icon{opacity:1;}
+
+/* LIGHTBOX */
+.lightbox-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:9999;align-items:center;justify-content:center;flex-direction:column;}
+.lightbox-overlay.active{display:flex;}
+.lightbox-img{max-width:88vw;max-height:78vh;object-fit:contain;border-radius:8px;box-shadow:0 20px 80px rgba(0,0,0,0.8);transition:opacity 0.15s ease;}
+.lightbox-close{position:fixed;top:20px;right:28px;color:white;font-size:44px;cursor:pointer;line-height:1;font-weight:200;z-index:10000;background:none;border:none;}
+.lightbox-close:hover{opacity:0.6;}
+.lightbox-nav{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;font-size:32px;width:56px;height:56px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10000;transition:background 0.2s;font-family:var(--sans);}
+.lightbox-nav:hover{background:rgba(255,255,255,0.18);}
+.lightbox-prev{left:20px;}
+.lightbox-next{right:20px;}
+.lightbox-info{text-align:center;margin-top:16px;}
+.lightbox-caption{color:rgba(255,255,255,0.75);font-size:14px;font-weight:300;}
+.lightbox-counter{color:rgba(255,255,255,0.35);font-size:12px;margin-top:6px;}
+
+/* CTA */
+.gallery-cta{background:var(--teal-xlight);padding:64px 60px;text-align:center;}
+.gallery-cta h2{font-size:36px;font-weight:700;color:var(--navy);letter-spacing:-0.8px;margin-bottom:10px;}
+.gallery-cta p{font-size:16px;color:var(--text-mid);font-weight:300;margin-bottom:28px;}
+.btn-primary{background:var(--teal);color:white;font-size:15px;font-weight:600;padding:14px 32px;border-radius:10px;text-decoration:none;display:inline-block;transition:all 0.15s;}
+.btn-primary:hover{background:#0E9980;transform:translateY(-1px);}
+
+/* FOOTER */
+.gallery-footer{background:var(--navy);padding:28px 60px;display:flex;align-items:center;justify-content:space-between;}
+.gallery-footer .logo-name{color:white;font-size:17px;}
+.gallery-footer .logo-name span{color:#0E9980;}
+.footer-copy{font-size:12px;color:rgba(255,255,255,0.25);}
+
+@media(max-width:768px){
+  nav{padding:0 20px;}
+  .gallery-hero{padding:40px 20px;}
+  .gallery-hero h1{font-size:32px;}
+  .gallery-section{padding:32px 16px;}
+  .gallery-grid{columns:2;}
+  .gallery-cta{padding:48px 20px;}
+  .gallery-footer{padding:24px 20px;flex-direction:column;gap:12px;text-align:center;}
+}
+@media(max-width:480px){
+  .gallery-grid{columns:1;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="puresmile-dental.html" class="logo">
+      <div class="logo-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 3C8.5 3 6 5.5 5 8.5c-.5 2 0 4 .8 6 .8 2 1.2 4 1.2 6.5 0 1 .5 1.5 1 1.5s1-.5 1-1.5c0-1 .5-1.5 3-1.5s3 .5 3 1.5c0 1 .5 1.5 1 1.5s1-.5 1-1.5c0-2.5.4-4.5 1.2-6.5.8-2 1.3-4 .8-6C19 5.5 16.5 3 12 3z"/></svg>
+      </div>
+      <div class="logo-name">Pure<span>Smile</span> Dental</div>
+    </a>
+    <a href="puresmile-dental.html#booking" class="nav-back">Book Free Consultation</a>
+  </div>
+</nav>
+
+<div class="gallery-hero">
+  <h1>Our Smile <em>Gallery</em></h1>
+  <p>Real patients. Real results. Browse our before & after transformations, clinic photos and treatment results.</p>
+  <div class="filter-tabs">
+    <button class="tab active" onclick="filterGallery('all', this)">All Photos</button>
+    <button class="tab" onclick="filterGallery('before-after', this)">Before & After</button>
+    <button class="tab" onclick="filterGallery('clinic', this)">Our Clinic</button>
+    <button class="tab" onclick="filterGallery('technology', this)">Technology</button>
+    <button class="tab" onclick="filterGallery('team', this)">Our Team</button>
+    <button class="tab" onclick="filterGallery('pediatric', this)">Kids & Family</button>
+  </div>
+</div>
+
+<div class="gallery-section">
+  <div class="gallery-grid" id="gallery-grid">
+
+    <div class="gallery-item" data-cat="before-after" onclick="openLightbox(0)">
+      <img src="images/before-after/before-after-veneers-smile-makeover-01.jpg" alt="Porcelain Veneers Transformation">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Before & After</div><div class="title">Porcelain Veneers</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="clinic" onclick="openLightbox(1)">
+      <img src="images/clinic/clinic-luxury-treatment-room-city-view.jpg" alt="Luxury Treatment Room">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Our Clinic</div><div class="title">Luxury Treatment Room</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="before-after" onclick="openLightbox(2)">
+      <img src="images/before-after/before-after-smile-makeover-veneers-02.jpg" alt="Full Smile Makeover">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Before & After</div><div class="title">Full Smile Makeover</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="technology" onclick="openLightbox(3)">
+      <img src="images/technology/cbct-3d-ct-scan-treatment-planning.jpg" alt="3D CBCT Scanner">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Technology</div><div class="title">3D CBCT Scanner</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="before-after" onclick="openLightbox(4)">
+      <img src="images/before-after/before-after-teeth-whitening-01.jpg" alt="Teeth Whitening Result">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Before & After</div><div class="title">Professional Whitening</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="clinic" onclick="openLightbox(5)">
+      <img src="images/clinic/clinic-reception-lobby-branded.jpg" alt="Reception Lobby">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Our Clinic</div><div class="title">Reception & Welcome</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="pediatric" onclick="openLightbox(6)">
+      <img src="images/pediatric/pediatric-dentist-with-smiling-child.jpg" alt="Pediatric Dentist with Child">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Kids & Family</div><div class="title">Happy Young Patient</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="before-after" onclick="openLightbox(7)">
+      <img src="images/before-after/before-after-dental-implant-gap-closure-01.jpg" alt="Dental Implant Result">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Before & After</div><div class="title">Dental Implant</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="technology" onclick="openLightbox(8)">
+      <img src="images/technology/digital-panoramic-xray-machine-operation.jpg" alt="Digital X-Ray Machine">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Technology</div><div class="title">Digital Panoramic X-Ray</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="team" onclick="openLightbox(9)">
+      <img src="images/team/dental-team-family-welcome-consultation.jpg" alt="Dental Team">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Our Team</div><div class="title">Welcoming Every Patient</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="before-after" onclick="openLightbox(10)">
+      <img src="images/before-after/before-after-amalgam-to-composite-fillings-01.jpg" alt="Composite Fillings">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Before & After</div><div class="title">Composite Fillings</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="clinic" onclick="openLightbox(11)">
+      <img src="images/clinic/clinic-treatment-room-ambient-lighting.jpg" alt="Treatment Room">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Our Clinic</div><div class="title">Premium Equipment</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="pediatric" onclick="openLightbox(12)">
+      <img src="images/pediatric/pediatric-dentist-child-thumbs-up-success.jpg" alt="Happy Child After Dentist">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Kids & Family</div><div class="title">Thumbs Up!</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="technology" onclick="openLightbox(13)">
+      <img src="images/technology/dental-specialist-clinical-microscope.jpg" alt="Clinical Microscope">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Technology</div><div class="title">Clinical Microscope</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="before-after" onclick="openLightbox(14)">
+      <img src="images/before-after/before-after-periodontal-scaling-treatment-01.jpg" alt="Periodontal Treatment">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Before & After</div><div class="title">Periodontal Therapy</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="team" onclick="openLightbox(15)">
+      <img src="images/team/dental-team-procedure-collaboration.jpg" alt="Dental Team Procedure">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Our Team</div><div class="title">Precision Care</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="pediatric" onclick="openLightbox(16)">
+      <img src="images/pediatric/pediatric-child-dental-treatment-protective-glasses.jpg" alt="Child Dental Treatment">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Kids & Family</div><div class="title">Gentle Child Care</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="before-after" onclick="openLightbox(17)">
+      <img src="images/before-after/before-after-whitening-02.jpg" alt="Whitening Result">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Before & After</div><div class="title">Teeth Whitening</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="clinic" onclick="openLightbox(18)">
+      <img src="images/clinic/clinic-dentist-treating-patient.jpg" alt="Dentist Treating Patient">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Our Clinic</div><div class="title">Expert Treatment</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="pediatric" onclick="openLightbox(19)">
+      <img src="images/pediatric/pediatric-girl-dental-examination-treatment.jpg" alt="Girl Dental Exam">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Kids & Family</div><div class="title">Gentle Examination</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="technology" onclick="openLightbox(20)">
+      <img src="images/technology/dental-lab-researcher-microscope-analysis.jpg" alt="Lab Research">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Technology</div><div class="title">Lab Quality Control</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="before-after" onclick="openLightbox(21)">
+      <img src="images/before-after/before-after-veneers-front-teeth-02.jpg" alt="Veneers Front Teeth">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Before & After</div><div class="title">Front Teeth Veneers</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+    <div class="gallery-item" data-cat="technology" onclick="openLightbox(22)">
+      <img src="images/technology/cbct-ct-scanner-control-room-radiologist.jpg" alt="CT Scanner Control Room">
+      <div class="gallery-item-overlay"><div class="gallery-item-label"><div class="cat">Technology</div><div class="title">CT Scanner Suite</div></div></div>
+      <div class="zoom-icon">🔍</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="gallery-cta">
+  <h2>Ready to Transform Your Smile?</h2>
+  <p>Book a free consultation and let's talk about what's possible for you.</p>
+  <a href="puresmile-dental.html#booking" class="btn-primary">Book Free Consultation →</a>
+</div>
+
+<footer class="gallery-footer">
+  <div class="logo-name">Pure<span>Smile</span> Dental</div>
+  <div class="footer-copy">© 2025 PureSmile Dental · All rights reserved</div>
+</footer>
+
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightboxOnBg(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)">‹</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  <div class="lightbox-info">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+    <div class="lightbox-counter" id="lightbox-counter"></div>
+  </div>
+  <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)">›</button>
+</div>
+
+<script>
+const galleryData = [
+  {src:'images/before-after/before-after-veneers-smile-makeover-01.jpg',caption:'Porcelain Veneers Transformation'},
+  {src:'images/clinic/clinic-luxury-treatment-room-city-view.jpg',caption:'Luxury Treatment Room'},
+  {src:'images/before-after/before-after-smile-makeover-veneers-02.jpg',caption:'Full Smile Makeover'},
+  {src:'images/technology/cbct-3d-ct-scan-treatment-planning.jpg',caption:'3D CBCT Scanner'},
+  {src:'images/before-after/before-after-teeth-whitening-01.jpg',caption:'Professional Teeth Whitening'},
+  {src:'images/clinic/clinic-reception-lobby-branded.jpg',caption:'Reception & Welcome Area'},
+  {src:'images/pediatric/pediatric-dentist-with-smiling-child.jpg',caption:'Happy Young Patient'},
+  {src:'images/before-after/before-after-dental-implant-gap-closure-01.jpg',caption:'Dental Implant Result'},
+  {src:'images/technology/digital-panoramic-xray-machine-operation.jpg',caption:'Digital Panoramic X-Ray'},
+  {src:'images/team/dental-team-family-welcome-consultation.jpg',caption:'Our Welcoming Team'},
+  {src:'images/before-after/before-after-amalgam-to-composite-fillings-01.jpg',caption:'Composite Fillings'},
+  {src:'images/clinic/clinic-treatment-room-ambient-lighting.jpg',caption:'Premium Treatment Room'},
+  {src:'images/pediatric/pediatric-dentist-child-thumbs-up-success.jpg',caption:'Successful Visit'},
+  {src:'images/technology/dental-specialist-clinical-microscope.jpg',caption:'Clinical Microscope'},
+  {src:'images/before-after/before-after-periodontal-scaling-treatment-01.jpg',caption:'Periodontal Therapy'},
+  {src:'images/team/dental-team-procedure-collaboration.jpg',caption:'Team Collaboration'},
+  {src:'images/pediatric/pediatric-child-dental-treatment-protective-glasses.jpg',caption:'Gentle Child Care'},
+  {src:'images/before-after/before-after-whitening-02.jpg',caption:'Teeth Whitening'},
+  {src:'images/clinic/clinic-dentist-treating-patient.jpg',caption:'Expert Treatment'},
+  {src:'images/pediatric/pediatric-girl-dental-examination-treatment.jpg',caption:'Gentle Examination'},
+  {src:'images/technology/dental-lab-researcher-microscope-analysis.jpg',caption:'Lab Quality Control'},
+  {src:'images/before-after/before-after-veneers-front-teeth-02.jpg',caption:'Front Teeth Veneers'},
+  {src:'images/technology/cbct-ct-scanner-control-room-radiologist.jpg',caption:'CT Scanner Suite'}
+];
+
+let currentIndex = 0;
+
+function openLightbox(index) {
+  currentIndex = index;
+  document.getElementById('lightbox-img').src = galleryData[index].src;
+  document.getElementById('lightbox-caption').textContent = galleryData[index].caption;
+  document.getElementById('lightbox-counter').textContent = (index + 1) + ' / ' + galleryData.length;
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function closeLightboxOnBg(e) {
+  if (e.target === document.getElementById('lightbox')) closeLightbox();
+}
+
+function lightboxNav(dir) {
+  currentIndex = (currentIndex + dir + galleryData.length) % galleryData.length;
+  const imgEl = document.getElementById('lightbox-img');
+  imgEl.style.opacity = '0';
+  setTimeout(() => {
+    imgEl.src = galleryData[currentIndex].src;
+    document.getElementById('lightbox-caption').textContent = galleryData[currentIndex].caption;
+    document.getElementById('lightbox-counter').textContent = (currentIndex + 1) + ' / ' + galleryData.length;
+    imgEl.style.opacity = '1';
+  }, 150);
+}
+
+function filterGallery(cat, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    if (cat === 'all' || item.dataset.cat === cat) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+document.addEventListener('keydown', function(e) {
+  if (!document.getElementById('lightbox').classList.contains('active')) return;
+  if (e.key === 'ArrowRight') lightboxNav(1);
+  if (e.key === 'ArrowLeft') lightboxNav(-1);
+  if (e.key === 'Escape') closeLightbox();
+});
+</script>
+</body>
+</html>

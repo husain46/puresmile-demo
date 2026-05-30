@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"d:\\\\web-projects\\\\dental\" && mkdir -p images/before-after images/clinic images/pediatric images/technology images/team images/treatments images/hero images/gallery)",
+      "Bash(cp \"WhatsApp Image 2026-05-30 at 2.56.42 PM.jpeg\"      \"images/technology/cbct-3d-ct-scan-treatment-planning.jpg\")",
+      "Bash(cp \"WhatsApp Image 2026-05-30 at 2.56.42 PM \\(1\\).jpeg\"  \"images/clinic/clinic-dentist-treating-patient.jpg\")",
+      "Bash(cp \"WhatsApp Image 2026-05-30 at 2.56.43 PM.jpeg\"      \"images/pediatric/pediatric-dentist-with-smiling-child.jpg\")",
+      "Bash(cp \"WhatsApp Image 2026-05-30 at 2.56.44 PM.jpeg\"      \"images/clinic/clinic-luxury-treatment-room-city-view.jpg\")",
+      "Bash(cp \"WhatsApp Image 2026-05-30 at 2.56.44 PM \\(1\\).jpeg\"  \"images/clinic/clinic-treatment-room-ambient-lighting.jpg\")"
+    ],
+    "additionalDirectories": [
+      "d:\\web-projects\\dental\\images"
+    ]
+  }
+}
